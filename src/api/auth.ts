@@ -1,7 +1,7 @@
-import { betterAuth } from "better-auth";
-import { drizzleAdapter } from "better-auth/adapters/drizzle";
-import { apiEnv } from "@/api-env";
-import { db } from "./db";
+import { betterAuth } from "better-auth"
+import { drizzleAdapter } from "better-auth/adapters/drizzle"
+import { apiEnv } from "@/api-env"
+import { db } from "./db"
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
@@ -21,6 +21,6 @@ export const auth = betterAuth({
       generateId: false,
     },
   },
-});
+})
 
-export type AuthSession = typeof auth.$Infer.Session;
+export type AuthSession = typeof auth.$Infer.Session
