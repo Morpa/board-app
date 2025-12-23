@@ -13,28 +13,42 @@ interface Props {
     searchParams: Promise<{ q: string }>
 }
 
-export default async function Board({ searchParams }: Props) {
-    const { q } = await searchParams
+interface Issue {
+    id: string
+    issueNumber: number
+    title: string
+}
 
-    const issues = await listIssues()
+interface BoardSectionProps {
+    title: string
+    issues: Issue[]
+}
 
+function EmptyState({ message }: { message: string }) {
     return (
-        <main className="grid grid-cols-4 gap-5 flex-1 items-stretch">
-            <Section.Root>
-                <Section.Header>
-                    <Section.Title>
-                        <ArchiveIcon className="size-3" />
-                        Backlog
-                    </Section.Title>
+        <div className="flex items-center justify-center py-8 text-center">
+            <p className="text-sm text-navy-300">{message}</p>
+        </div>
+    )
+}
 
-                    <Section.IssueCount>
-                        {issues.backlog.length}
-                    </Section.IssueCount>
-                </Section.Header>
+function BoardSection({ title, issues }: BoardSectionProps) {
+    return (
+        <Section.Root>
+            <Section.Header>
+                <Section.Title>
+                    <ArchiveIcon className="size-3" />
+                    {title}
+                </Section.Title>
 
-                {/* Content */}
-                <Section.Content>
-                    {issues.backlog.map((issue) => (
+                <Section.IssueCount>{issues.length}</Section.IssueCount>
+            </Section.Header>
+
+            <Section.Content>
+                {issues.length === 0 ? (
+                    <EmptyState message="No issues in backlog match your filters" />
+                ) : (
+                    issues.map((issue) => (
                         <Card.Root key={issue.id}>
                             <Card.Header>
                                 <Card.Number>
@@ -42,6 +56,7 @@ export default async function Board({ searchParams }: Props) {
                                 </Card.Number>
                                 <Card.Title>{issue.title}</Card.Title>
                             </Card.Header>
+
                             <Card.Footer>
                                 <Button className="text-navy-100 flex items-center gap-2 rounded-lg px-2.5 py-1 bg-navy-600 cursor-pointer">
                                     <ThumbsUpIcon className="size-3" />
@@ -54,123 +69,26 @@ export default async function Board({ searchParams }: Props) {
                                 </Button>
                             </Card.Footer>
                         </Card.Root>
-                    ))}
-                </Section.Content>
-            </Section.Root>
+                    ))
+                )}
+            </Section.Content>
+        </Section.Root>
+    )
+}
 
-            <Section.Root>
-                <Section.Header>
-                    <Section.Title>
-                        <ArchiveIcon className="size-3" />
-                        To-do
-                    </Section.Title>
+export default async function Board({ searchParams }: Props) {
+    const { q } = await searchParams
+    const issues = await listIssues({ search: q })
 
-                    <Section.IssueCount>
-                        {issues.todo.length}
-                    </Section.IssueCount>
-                </Section.Header>
+    return (
+        <main className="grid grid-cols-4 gap-5 flex-1 items-stretch">
+            <BoardSection title="Backlog" issues={issues.backlog} />
 
-                {/* Content */}
-                <Section.Content>
-                    {issues.todo.map((todo) => (
-                        <Card.Root key={todo.id}>
-                            <Card.Header>
-                                <Card.Number>
-                                    ISS-{todo.issueNumber}
-                                </Card.Number>
-                                <Card.Title>{todo.title}</Card.Title>
-                            </Card.Header>
-                            <Card.Footer>
-                                <Button className="text-navy-100 flex items-center gap-2 rounded-lg px-2.5 py-1 bg-navy-600 cursor-pointer">
-                                    <ThumbsUpIcon className="size-3" />
-                                    <span className="text-sm">12</span>
-                                </Button>
+            <BoardSection title="To-do" issues={issues.todo} />
 
-                                <Button>
-                                    <MessageCircleIcon className="size-3" />
-                                    <span className="text-sm">3</span>
-                                </Button>
-                            </Card.Footer>
-                        </Card.Root>
-                    ))}
-                </Section.Content>
-            </Section.Root>
+            <BoardSection title="In Progress" issues={issues.in_progress} />
 
-            <Section.Root>
-                <Section.Header>
-                    <Section.Title>
-                        <ArchiveIcon className="size-3" />
-                        In Progress
-                    </Section.Title>
-
-                    <Section.IssueCount>
-                        {issues.in_progress.length}
-                    </Section.IssueCount>
-                </Section.Header>
-
-                {/* Content */}
-                <Section.Content>
-                    {issues.in_progress.map((in_progress) => (
-                        <Card.Root key={in_progress.id}>
-                            <Card.Header>
-                                <Card.Number>
-                                    ISS-{in_progress.issueNumber}
-                                </Card.Number>
-                                <Card.Title>{in_progress.title}</Card.Title>
-                            </Card.Header>
-                            <Card.Footer>
-                                <Button className="text-navy-100 flex items-center gap-2 rounded-lg px-2.5 py-1 bg-navy-600 cursor-pointer">
-                                    <ThumbsUpIcon className="size-3" />
-                                    <span className="text-sm">12</span>
-                                </Button>
-
-                                <Button>
-                                    <MessageCircleIcon className="size-3" />
-                                    <span className="text-sm">3</span>
-                                </Button>
-                            </Card.Footer>
-                        </Card.Root>
-                    ))}
-                </Section.Content>
-            </Section.Root>
-
-            <Section.Root>
-                <Section.Header>
-                    <Section.Title>
-                        <ArchiveIcon className="size-3" />
-                        Done
-                    </Section.Title>
-
-                    <Section.IssueCount>
-                        {issues.done.length}
-                    </Section.IssueCount>
-                </Section.Header>
-
-                {/* Content */}
-                <Section.Content>
-                    {issues.done.map((done) => (
-                        <Card.Root key={done.id}>
-                            <Card.Header>
-                                <Card.Number>
-                                    ISS-{done.issueNumber}
-                                </Card.Number>
-                                <Card.Title>{done.title}</Card.Title>
-                            </Card.Header>
-                            <Card.Footer>
-                                <Button className="text-navy-100 flex items-center gap-2 rounded-lg px-2.5 py-1 bg-navy-600 cursor-pointer">
-                                    <ThumbsUpIcon className="size-3" />
-                                    <span className="text-sm">12</span>
-                                </Button>
-
-                                <Button>
-                                    <MessageCircleIcon className="size-3" />
-                                    <span className="text-sm">3</span>
-                                </Button>
-                            </Card.Footer>
-                        </Card.Root>
-                    ))}
-                </Section.Content>
-            </Section.Root>
+            <BoardSection title="Done" issues={issues.done} />
         </main>
     )
 }

@@ -8,7 +8,9 @@ import { debounce, parseAsString, useQueryState } from "nuqs"
 export function SearchInput() {
     const [search, setSearch] = useQueryState(
         "q",
-        parseAsString.withDefault(""),
+        parseAsString.withDefault("").withOptions({
+            shallow: false,
+        }),
     )
 
     function handleSearchUpdate(event: ChangeEvent<HTMLInputElement>) {
