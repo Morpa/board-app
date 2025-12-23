@@ -1,5 +1,6 @@
 pre-commit:
-    parallel: true
     commands:
         biome:
-            run: npx biome format --write {staged_files}
+            run: |
+                npx biome format --write {staged_files}
+                git add {staged_files}
