@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import { Montserrat } from "next/font/google"
+import { NuqsAdapter } from "nuqs/adapters/next/app"
 import "./globals.css"
 
 export const metadata: Metadata = {
@@ -16,7 +17,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={montserrat.className}>
-      <body className="bg-navy-950 text-navy-50 antialiased">{children}</body>
+      <body className="bg-navy-950 text-navy-50 antialiased">
+        <NuqsAdapter>
+          {children}
+        </NuqsAdapter>
+      </body>
     </html>
   )
 }
