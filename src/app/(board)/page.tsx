@@ -49,7 +49,7 @@ function BoardSection({ title, issues }: BoardSectionProps) {
                     <EmptyState message="No issues in backlog match your filters" />
                 ) : (
                     issues.map((issue) => (
-                        <Card.Root key={issue.id}>
+                        <Card.Root href={`/issues/${issue.id}`} key={issue.id}>
                             <Card.Header>
                                 <Card.Number>
                                     ISS-{issue.issueNumber}
