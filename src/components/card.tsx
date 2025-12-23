@@ -1,7 +1,7 @@
 import type { ComponentProps } from "react"
 import { twMerge } from "tailwind-merge"
 
-interface CardRootProps extends ComponentProps<"a"> { }
+interface CardRootProps extends ComponentProps<"a"> {}
 
 function CardRoot({ className, ...props }: CardRootProps) {
   return (
@@ -18,7 +18,7 @@ function CardRoot({ className, ...props }: CardRootProps) {
   )
 }
 
-interface CardHeaderProps extends ComponentProps<"div"> { }
+interface CardHeaderProps extends ComponentProps<"div"> {}
 
 function CardHeader({ className, ...props }: CardHeaderProps) {
   return (
@@ -26,7 +26,7 @@ function CardHeader({ className, ...props }: CardHeaderProps) {
   )
 }
 
-interface CardTitleProps extends ComponentProps<"span"> { }
+interface CardTitleProps extends ComponentProps<"span"> {}
 
 function CardTitle({ className, ...props }: CardTitleProps) {
   return (
@@ -34,7 +34,7 @@ function CardTitle({ className, ...props }: CardTitleProps) {
   )
 }
 
-interface CardNumberProps extends ComponentProps<"span"> { }
+interface CardNumberProps extends ComponentProps<"span"> {}
 
 function CardNumber({ className, ...props }: CardNumberProps) {
   return (
@@ -42,7 +42,7 @@ function CardNumber({ className, ...props }: CardNumberProps) {
   )
 }
 
-interface CardFooterProps extends ComponentProps<"div"> { }
+interface CardFooterProps extends ComponentProps<"div"> {}
 
 function CardFooter({ className, ...props }: CardFooterProps) {
   return (

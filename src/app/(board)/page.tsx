@@ -2,7 +2,11 @@ import { Button } from "@/components/button"
 import { Card } from "@/components/card"
 import { Section } from "@/components/section"
 import { ArchiveIcon, MessageCircleIcon, ThumbsUpIcon } from "lucide-react"
+import type { Metadata } from "next"
 
+export const metadata: Metadata = {
+  title: "Board",
+}
 
 interface Props {
   searchParams: Promise<{ q: string }>

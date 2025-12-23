@@ -1,4 +1,4 @@
-'use client'
+"use client"
 
 import { Input } from "@/components/input"
 import { authClient } from "@/lib/auth-client"
@@ -8,16 +8,19 @@ import type { ChangeEvent } from "react"
 
 export function Header() {
   const { data: session, isPending } = authClient.useSession()
-  const [search, setSearch] = useQueryState('q', parseAsString.withDefault(''))
+  const [search, setSearch] = useQueryState("q", parseAsString.withDefault(""))
 
   function handleSearchUpdate(event: ChangeEvent<HTMLInputElement>) {
     setSearch(event.target.value, {
-      limitUrlUpdates: event.target.value !== '' ? debounce(500) : undefined
+      limitUrlUpdates: event.target.value !== "" ? debounce(500) : undefined,
     })
   }
 
   async function handleSignin() {
-    await authClient.signIn.social({ provider: 'github', callbackURL: '/' })
+    await authClient.signIn.social({
+      provider: "github",
+      callbackURL: "/",
+    })
   }
 
   async function handleSignout() {
@@ -49,26 +52,28 @@ export function Header() {
         {isPending ? (
           <div className="size-8 rounded-full bg-navy-700 border border-navy-500 flex items-center justify-center">
             <Loader2Icon className="size-3.5 text-navy-200 animate-spin" />
-          </div>) :
-          (
-            session?.user ? (
-              <button
-                type="button"
-                onClick={handleSignout}
-                className="size-8 rounded-full overflow-hidden cursor-pointer"
-              >
-                <img src={session.user.image ?? ''} alt={session.user.name} className="size-8 rounded-full" />
-              </button>
-            ) : (
-              <button
-                type="button"
-                onClick={handleSignin}
-                className="size-8 rounded-full bg-navy-700 border border-navy-500 flex items-center justify-center hover:bg-navy-600 transition-colors duration-150 cursor-pointer"
-              >
-                <LogInIcon className="size-3.5 text-navy-200" />
-              </button>
-            )
-          )}
+          </div>
+        ) : session?.user ? (
+          <button
+            type="button"
+            onClick={handleSignout}
+            className="size-8 rounded-full overflow-hidden cursor-pointer"
+          >
+            <img
+              src={session.user.image ?? ""}
+              alt={session.user.name}
+              className="size-8 rounded-full"
+            />
+          </button>
+        ) : (
+          <button
+            type="button"
+            onClick={handleSignin}
+            className="size-8 rounded-full bg-navy-700 border border-navy-500 flex items-center justify-center hover:bg-navy-600 transition-colors duration-150 cursor-pointer"
+          >
+            <LogInIcon className="size-3.5 text-navy-200" />
+          </button>
+        )}
       </div>
     </header>
   )

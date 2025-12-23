@@ -1,7 +1,7 @@
 import type { ComponentProps } from "react"
 import { twMerge } from "tailwind-merge"
 
-interface SectionRootProps extends ComponentProps<"div"> { }
+interface SectionRootProps extends ComponentProps<"div"> {}
 
 function SectionRoot({ className, ...props }: SectionRootProps) {
   return (
@@ -15,7 +15,7 @@ function SectionRoot({ className, ...props }: SectionRootProps) {
   )
 }
 
-interface SectionHeaderProps extends ComponentProps<"div"> { }
+interface SectionHeaderProps extends ComponentProps<"div"> {}
 
 function SectionHeader({ className, ...props }: SectionHeaderProps) {
   return (
@@ -26,7 +26,7 @@ function SectionHeader({ className, ...props }: SectionHeaderProps) {
   )
 }
 
-interface SectionTitleProps extends ComponentProps<"div"> { }
+interface SectionTitleProps extends ComponentProps<"div"> {}
 
 function SectionTitle({ className, ...props }: SectionTitleProps) {
   return (
@@ -40,7 +40,7 @@ function SectionTitle({ className, ...props }: SectionTitleProps) {
   )
 }
 
-interface SectionIssueCountProps extends ComponentProps<"div"> { }
+interface SectionIssueCountProps extends ComponentProps<"div"> {}
 
 function SectionIssueCount({ className, ...props }: SectionIssueCountProps) {
   return (
@@ -48,7 +48,7 @@ function SectionIssueCount({ className, ...props }: SectionIssueCountProps) {
   )
 }
 
-interface SectionContentProps extends ComponentProps<"div"> { }
+interface SectionContentProps extends ComponentProps<"div"> {}
 
 function SectionContent({ className, ...props }: SectionContentProps) {
   return (
