@@ -1,9 +1,9 @@
 import type { ComponentProps } from "react"
 import { twMerge } from "tailwind-merge"
 
-interface SkeletonProps extends ComponentProps<"div"> {}
+interface Props extends ComponentProps<"div"> {}
 
-export function Skeleton({ className, ...props }: SkeletonProps) {
+export function Skeleton({ className, ...props }: Props) {
     return (
         <div
             className={twMerge(

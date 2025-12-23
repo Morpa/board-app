@@ -4,6 +4,8 @@ import { ArchiveIcon, MoveLeftIcon, ThumbsUpIcon } from "lucide-react"
 import { Button } from "@/components/button"
 import { getIssue } from "@/http/get-issue"
 import { IssueCommentsList } from "./issue-comments/issue-coments-list"
+import { Suspense } from "react"
+import { IssueCommentsSkeleton } from "./issue-comments/issue-comments-skeleton"
 
 interface Props {
     params: Promise<{ id: string }>
@@ -66,7 +68,9 @@ export default async function IssuePage({ params }: Props) {
                 <form />
 
                 <div className="mt-3">
-                    <IssueCommentsList issueId={issue.id} />
+                    <Suspense fallback={<IssueCommentsSkeleton />}>
+                        <IssueCommentsList issueId={issue.id} />
+                    </Suspense>
                 </div>
             </div>
         </main>
