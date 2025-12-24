@@ -26,9 +26,7 @@ export async function IssueCommentsList({ issueId }: Props) {
               <Comment.Header>
                 <Comment.Author>{comment.author.name}</Comment.Author>
                 <Comment.Time>
-                  {formatDistanceToNow(comment.createdAt, {
-                    addSuffix: true,
-                  })}
+                  {formatDistanceToNow(comment.createdAt, { addSuffix: true })}
                 </Comment.Time>
               </Comment.Header>
 

@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
-import { Montserrat } from "next/font/google"
-import { NuqsAdapter } from "nuqs/adapters/next/app"
+import { Inter } from "next/font/google"
 import "./globals.css"
+import { NuqsAdapter } from "nuqs/adapters/next"
 import { ReactQueryProvider } from "@/lib/react-query"
 
 export const metadata: Metadata = {
@@ -12,18 +12,23 @@ export const metadata: Metadata = {
   description: "Follow the development progress of our entire platform.",
 }
 
-const montserrat = Montserrat({ subsets: ["latin"] })
+const interFont = Inter({ subsets: ["latin"] })
 
 export default function RootLayout({
   children,
+  modal,
 }: Readonly<{
   children: React.ReactNode
+  modal: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={montserrat.className}>
+    <html lang="en" className={interFont.className}>
       <body className="bg-navy-950 text-navy-50 antialiased">
         <ReactQueryProvider>
-          <NuqsAdapter>{children}</NuqsAdapter>
+          <NuqsAdapter>
+            {modal}
+            {children}
+          </NuqsAdapter>
         </ReactQueryProvider>
       </body>
     </html>

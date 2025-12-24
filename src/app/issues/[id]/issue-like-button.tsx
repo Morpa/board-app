@@ -16,7 +16,7 @@ export function IssueLikeButton({ issueId }: Props) {
   })
 
   if (isLoading) {
-    return <Skeleton className="w-16 h-7" />
+    return <Skeleton className="h-7 w-16" />
   }
 
   const interaction = data?.interactions[0]
