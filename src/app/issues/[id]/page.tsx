@@ -1,96 +1,88 @@
 import { Suspense } from "react"
 import Link from "next/link"
-import {
-    ArchiveIcon,
-    MessageCirclePlusIcon,
-    MoveLeftIcon,
-    ThumbsUpIcon,
-} from "lucide-react"
-import { Button } from "@/components/button"
+import type { Metadata } from "next"
+import { ArchiveIcon, MessageCirclePlusIcon, MoveLeftIcon } from "lucide-react"
 import { getIssue } from "@/http/get-issue"
 import { IssueCommentsList } from "./issue-comments/issue-coments-list"
 import { IssueCommentsSkeleton } from "./issue-comments/issue-comments-skeleton"
 import { Input } from "@/components/input"
-import type { Metadata } from "next"
+import { IssueLikeButton } from "./issue-like-button"
 
 interface Props {
-    params: Promise<{ id: string }>
+  params: Promise<{ id: string }>
 }
 
 export const generateMetadata = async ({
-    params,
+  params,
 }: Props): Promise<Metadata> => {
-    const { id } = await params
-    const issue = await getIssue({ id })
-    return {
-        title: `Issue ${issue.title}`,
-    }
+  const { id } = await params
+  const issue = await getIssue({ id })
+  return {
+    title: `Issue ${issue.title}`,
+  }
 }
 
 const statusLabels = {
-    backlog: "Backlog",
-    todo: "To do",
-    in_progress: "In progress",
-    done: "Done",
+  backlog: "Backlog",
+  todo: "To do",
+  in_progress: "In progress",
+  done: "Done",
 } as const
 
 export default async function IssuePage({ params }: Props) {
-    const { id } = await params
+  const { id } = await params
 
-    const issue = await getIssue({ id })
+  const issue = await getIssue({ id })
 
-    return (
-        <main className="max-w-225 mx-auto w-full flex flex-col gap-4 p-6 bg-navy-800 border-[0.5px] border-navy-500 rounded-xl">
-            <Link
-                href="/"
-                className="flex items-center gap-2 text-navy-200 hover:text-navy-100"
-            >
-                <MoveLeftIcon className="size-4" />
-                <span className="text-sm">Back to board</span>
-            </Link>
+  return (
+    <main className="max-w-225 mx-auto w-full flex flex-col gap-4 p-6 bg-navy-800 border-[0.5px] border-navy-500 rounded-xl">
+      <Link
+        href="/"
+        className="flex items-center gap-2 text-navy-200 hover:text-navy-100"
+      >
+        <MoveLeftIcon className="size-4" />
+        <span className="text-sm">Back to board</span>
+      </Link>
 
-            <div className="flex items-center gap-2">
-                <span className="bg-navy-700 rounded-lg px-3 py-1.5 flex items-center gap-2 text-xs">
-                    <ArchiveIcon className="size-3" />
-                    {statusLabels[issue.status]}
-                </span>
+      <div className="flex items-center gap-2">
+        <span className="bg-navy-700 rounded-lg px-3 py-1.5 flex items-center gap-2 text-xs">
+          <ArchiveIcon className="size-3" />
+          {statusLabels[issue.status]}
+        </span>
 
-                <Button className="text-navy-100 flex items-center gap-2 rounded-lg px-2.5 py-1 bg-navy-600 cursor-pointer">
-                    <ThumbsUpIcon className="size-3" />
-                    <span className="text-sm">12</span>
-                </Button>
-            </div>
+        <IssueLikeButton issueId={id} />
+      </div>
 
-            <div className="space-y-2">
-                <h1 className="font-semibold text-2xl">{issue.title}</h1>
-                <p className="text-navy-100 text-sm leading-relaxed">
-                    {issue.description}
-                </p>
-            </div>
+      <div className="space-y-2">
+        <h1 className="font-semibold text-2xl">{issue.title}</h1>
+        <p className="text-navy-100 text-sm leading-relaxed">
+          {issue.description}
+        </p>
+      </div>
 
-            <div className="flex flex-col gap-2">
-                <span className="font-semibold">Comments</span>
+      <div className="flex flex-col gap-2">
+        <span className="font-semibold">Comments</span>
 
-                <form className="relative w-full">
-                    <Input
-                        className="bg-navy-700 h-11 pr-24 w-full"
-                        placeholder="Leave a comment..."
-                    />
-                    <button
-                        type="submit"
-                        className="flex items-center gap-2 text-indigo-400 absolute right-3 top-1/2 -translate-y-1/2 text-xs hover:text-indigo-300 cursor-pointer disabled:opacity-50"
-                    >
-                        Publish
-                        <MessageCirclePlusIcon className="size-3" />
-                    </button>
-                </form>
+        <form className="relative w-full">
+          <Input
+            className="bg-navy-700 h-11 pr-24 w-full"
+            placeholder="Leave a comment..."
+          />
+          <button
+            type="submit"
+            className="flex items-center gap-2 text-indigo-400 absolute right-3 top-1/2 -translate-y-1/2 text-xs hover:text-indigo-300 cursor-pointer disabled:opacity-50"
+          >
+            Publish
+            <MessageCirclePlusIcon className="size-3" />
+          </button>
+        </form>
 
-                <div className="mt-3">
-                    <Suspense fallback={<IssueCommentsSkeleton />}>
-                        <IssueCommentsList issueId={issue.id} />
-                    </Suspense>
-                </div>
-            </div>
-        </main>
-    )
+        <div className="mt-3">
+          <Suspense fallback={<IssueCommentsSkeleton />}>
+            <IssueCommentsList issueId={issue.id} />
+          </Suspense>
+        </div>
+      </div>
+    </main>
+  )
 }
